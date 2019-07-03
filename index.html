@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Budger planner</title>
+    <title>My courses</title>
     <link href="https://unpkg.com/@ionic/core@latest/css/ionic.bundle.css" rel="stylesheet">
     <script src="https://unpkg.com/@ionic/core@latest/dist/ionic.js"></script>
 </head>
@@ -14,7 +14,7 @@
     <ion-app>
         <ion-header>
             <ion-toolbar color="primary">
-                <ion-title>Budget planner</ion-title>
+                <ion-title>My Courses</ion-title>
             </ion-toolbar>
         </ion-header>
         <ion-content>
@@ -22,27 +22,21 @@
                 <ion-row>
                     <ion-col size-md="6" offset-md="3">
                         <ion-card>
-                            <ion-card-header>
-                                <ion-card-title>New Expense</ion-card-title>
-                            </ion-card-header>
                             <ion-card-content>
                                 <ion-item>
-                                    <ion-label position="floating">Expense reason</ion-label>
-                                    <ion-input id="input-reason" type="text"></ion-input>
-                                </ion-item>
-                                <ion-item>
-                                    <ion-label position="floating">Expense amount</ion-label>
-                                    <ion-input id="input-amount" type="number"></ion-input>
+                                    <ion-label position="floating">Course name</ion-label>
+                                    <ion-input id="input-course" type="text"></ion-input>
                                 </ion-item>
 
-                                <div margin-vertical text-right>
-                                    <ion-button id="btn-cancel" fill="outline" color="danger">
-                                        <ion-icon name="close" slot="start"></ion-icon>
-                                        Clear
-                                    </ion-button>
+                                <ion-item>
+                                    <ion-label position="floating">Rating [1-5]</ion-label>
+                                    <ion-input id="input-rating" type="number"></ion-input>
+                                </ion-item>
+
+                                <div margin-vertical>
                                     <ion-button id="btn-add">
                                         <ion-icon name="add" slot="end"></ion-icon>
-                                        Add expense
+                                        Add
                                     </ion-button>
                                 </div>
                             </ion-card-content>
@@ -51,16 +45,11 @@
                 </ion-row>
                 <ion-row>
                     <ion-col size-md="6" offset-md="3">
-                        <ion-list id="expenses-list">
+                        <ion-list id="rating-list">
                             <ion-list-header>
-                                <ion-label>Expenses List</ion-label>
+                                <ion-label>Rating List</ion-label>
                             </ion-list-header>
                         </ion-list>
-                    </ion-col>
-                </ion-row>
-                <ion-row>
-                    <ion-col size-md="6" offset-md="3">
-                        <p margin>Total expenses: <span id="total-expenses"></span></p>
                     </ion-col>
                 </ion-row>
             </ion-grid>
