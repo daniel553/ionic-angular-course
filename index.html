@@ -28,19 +28,19 @@
                             <ion-card-content>
                                 <ion-item>
                                     <ion-label position="floating">Expense reason</ion-label>
-                                    <ion-input type="text"></ion-input>
+                                    <ion-input id="input-reason" type="text"></ion-input>
                                 </ion-item>
                                 <ion-item>
                                     <ion-label position="floating">Expense amount</ion-label>
-                                    <ion-input type="number"></ion-input>
+                                    <ion-input id="input-amount" type="number"></ion-input>
                                 </ion-item>
 
                                 <div margin-vertical text-right>
-                                    <ion-button fill="outline" color="danger">
+                                    <ion-button id="btn-cancel" fill="outline" color="danger">
                                         <ion-icon name="close" slot="start"></ion-icon>
                                         Clear
                                     </ion-button>
-                                    <ion-button>
+                                    <ion-button id="btn-add">
                                         <ion-icon name="add" slot="end"></ion-icon>
                                         Add expense
                                     </ion-button>
@@ -49,9 +49,25 @@
                         </ion-card>
                     </ion-col>
                 </ion-row>
+                <ion-row>
+                    <ion-col>
+                        <ion-list id="expenses-list">
+                            <ion-list-header>
+                                <ion-label>Expenses List</ion-label>
+                            </ion-list-header>
+                        </ion-list>
+                    </ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col>
+                        <p>Total expense: <span id="total-expenses"></span></p>
+                    </ion-col>
+                </ion-row>
             </ion-grid>
         </ion-content>
     </ion-app>
 </body>
+
+<script src="app.js"></script>
 
 </html>
