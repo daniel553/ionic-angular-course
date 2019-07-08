@@ -42,6 +42,16 @@ export class RecipesService {
    * @param recipeId - identifier
    */
   getRecipe(recipeId: string) {
-    return {...this.recipes.find(r => r.id === recipeId)};
+    return { ...this.recipes.find(r => r.id === recipeId) };
+  }
+
+  /**
+   * Removes a recipe from list of recipes
+   *
+   * @param {string} recipeId
+   * @memberof RecipesService
+   */
+  deleteRecipe(recipeId: string) {
+    this.recipes = this.recipes.filter(r => r.id !== recipeId);
   }
 }
