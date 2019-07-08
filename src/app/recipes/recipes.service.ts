@@ -1,4 +1,6 @@
 import { Injectable } from '@angular/core';
+import { BehaviorSubject, Observable } from 'rxjs';
+
 import { Recipe } from './recipe.model';
 
 /**
@@ -13,6 +15,7 @@ import { Recipe } from './recipe.model';
 export class RecipesService {
 
   private recipes: Recipe[];
+  recipes$ = new BehaviorSubject(this.recipes);
 
   constructor() {
     this.recipes = [];
@@ -34,6 +37,7 @@ export class RecipesService {
    * Gets a copy of all recipies array
    */
   getAllRecipes(): Recipe[] {
+    this.recipes$.next([...this.recipes]);
     return [...this.recipes];
   }
 
@@ -53,5 +57,16 @@ export class RecipesService {
    */
   deleteRecipe(recipeId: string) {
     this.recipes = this.recipes.filter(r => r.id !== recipeId);
+    this.recipes$.next([...this.recipes]);
+  }
+
+  /**
+   * Obsevable for recipe list
+   *
+   * @returns {Observable<Recipe[]>}
+   * @memberof RecipesService
+   */
+  getRecipesObservable(): Observable<Recipe[]> {
+    return this.recipes$.asObservable();
   }
 }
