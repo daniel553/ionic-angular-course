@@ -24,10 +24,28 @@ export class RecipesPage implements OnInit, OnDestroy {
     });
   }
 
+  ionViewWillEnter(){
+   console.log('ionViewWillEnter');
+  }
+
+  ionViewDidEnter(){
+    console.log('ionViewDidEnter');
+  }
+
+  ionViewWillLeave(){
+    console.log('ionViewWillLeave');
+  }
+
+  ionViewDidLeave(){
+    console.log('ionViewDidLeave');
+  }
+
   ngOnDestroy(): void {
     if (this.recipesSub) {
       this.recipesSub.unsubscribe();
     }
+
+    console.log('ngOnDestroy');
   }
 
 }
