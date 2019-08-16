@@ -10,12 +10,14 @@
 
 <ion-content>
   <ion-grid>
-    <ion-row>
+    <ion-row align-items-center justify-content-center>
       <ion-col size="12" size-sm="8" offser-sm="2" text-center>
         <ion-card>
           <ion-card-header>
             <ion-card-title>
-              {{ loadedPlaces[0].title }}
+              <ion-text color="primary">
+                {{ loadedPlaces[0].title }}
+              </ion-text>
             </ion-card-title>
             <ion-card-subtitle>
               {{ loadedPlaces[0].price | currency }} / Night
@@ -32,7 +34,7 @@
         </ion-card>
       </ion-col>
     </ion-row>
-    <ion-row>
+    <ion-row align-items-center justify-content-center>
       <ion-col size="12" size-sm="8" offser-sm="2" text-center>
         <ion-list>
           <ion-item *ngFor="let place of loadedPlaces.slice(1)"
