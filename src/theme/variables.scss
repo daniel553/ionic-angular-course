@@ -73,6 +73,16 @@
   --ion-toolbar-color: var(--ion-color-primary-contrast);
 }
 
+//Fix for mission some ios icons
+ion-toolbar {
+  ion-button,
+  ion-back-button,
+  ion-menu-button,
+  .sc-ion-back-button-ios-h {
+    --color: white;
+  }
+}
+
 // If you want to have a different in each we can use ios or md, etc.
 .ios {
   --ion-color-primary: #d52715;
