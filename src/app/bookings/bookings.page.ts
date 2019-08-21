@@ -19,7 +19,7 @@ export class BookingsPage implements OnInit {
     this.bookings = this.bookingService.bookings;
   }
 
-  onCancelBooking(placeId: string, slidingItem: IonItemSliding){
+  onCancelBooking(placeId: string, slidingItem: IonItemSliding) {
     slidingItem.close();
     // Todo Cancel
   }

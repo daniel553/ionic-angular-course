@@ -16,7 +16,7 @@ export class PlacesService {
    */
   private mockPlaces() {
     let i = 0;
-    while (i < 5) {
+    while (i < 15) {
       this._places.push(new Place(
         'P' + i,
         'Beautiful place ' + i,
