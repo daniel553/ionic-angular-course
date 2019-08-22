@@ -87,3 +87,9 @@ ion-toolbar {
 .ios {
   --ion-color-primary: #d52715;
 }
+
+
+//For component specific attribute (global) we can use:
+ion-button {
+  // --box-shadow: 2px 2px 20px rgba(0,0,0,0.6);
+}
