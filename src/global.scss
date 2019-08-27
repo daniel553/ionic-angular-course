@@ -9,3 +9,8 @@
 @import '~@ionic/angular/css/text-alignment.css';
 @import '~@ionic/angular/css/text-transformation.css';
 @import '~@ionic/angular/css/flex-utils.css';
+
+// This class affect the global ion labels where a invalid and touched input
+.ion-invalid.ion-touched ion-label {
+    color: val(--ion-color-danger);
+}
