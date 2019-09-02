@@ -1,5 +1,7 @@
+import { PlacesService } from './../../places.service';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-new-offer',
@@ -10,7 +12,7 @@ export class NewOfferPage implements OnInit {
 
   form: FormGroup;
 
-  constructor() { }
+  constructor(private placesService: PlacesService, private router: Router) { }
 
   ngOnInit() {
     this.form = new FormGroup({
@@ -38,7 +40,15 @@ export class NewOfferPage implements OnInit {
   }
 
   onCreateOffer() {
-    console.log('Form', this.form)
+    console.log('Form', this.form);
+    this.placesService.addPlace(this.form.value.title,
+      this.form.value.description, 
+      'https://upload.wikimedia.org/wikipedia/commons/thumb/9/96/Wollcott-house-museum-maumee-oh.jpg/1200px-Wollcott-house-museum-maumee-oh.jpg', 
+      this.form.value.price,
+      this.form.value.dateFrom,
+      this.form.value.dateTo);
+    this.form.reset();
+    this.router.navigate(['/places/tabs/offers']);
   }
 
 }
