@@ -1,5 +1,8 @@
-import { AuthService } from './../auth/auth.service';
 import { Injectable } from '@angular/core';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { take, map } from 'rxjs/operators';
+
+import { AuthService } from './../auth/auth.service';
 import { Place } from './place.model';
 
 @Injectable({
@@ -7,7 +10,7 @@ import { Place } from './place.model';
 })
 export class PlacesService {
 
-  private _places: Place[] = [];
+  private _places = new BehaviorSubject<Place[]>(this.mockPlaces());
   constructor(private authService: AuthService) {
     this.mockPlaces();
   }
@@ -16,6 +19,7 @@ export class PlacesService {
    * Dummy loader
    */
   private mockPlaces() {
+    let places = [];
     let i = 0;
     while (i < 3) {
       let p = new Place('P' + i,
@@ -26,26 +30,33 @@ export class PlacesService {
         new Date('2019-01-01'),
         new Date('2019-12-31'),
         'ID');
-      this._places.push(p);
+      places.push(p);
       i++;
     }
+    return places;
   }
 
   /**
    * Get a copy of places on demand
    */
   get places() {
-    return [...this._places];
+    return this._places.asObservable();
   }
 
-  getPlace(id: string) {
-    return { ... this._places.find(p => p.id === id) };
+  getPlace(id: string): Observable<Place> {
+    return this.places.pipe(take(1), map(places => ({...places.find(p => p.id === id)})));
   }
 
   addPlace(title: string, description: string, imageUrl: string, price: number, availableFrom: Date, availableTo: Date) {
     const newPlace = new Place(
       Math.random().toString(), title, description, imageUrl, price, availableFrom, availableTo, this.authService.userId);
 
-    this._places.push(newPlace);
+    /*From the places observable then
+      subscribes to it but only take one object
+      and then actomatically cancel the description.
+    */
+    this.places.pipe(take(1)).subscribe(places => {
+      this._places.next(places.concat(newPlace));
+    });
   }
 }
