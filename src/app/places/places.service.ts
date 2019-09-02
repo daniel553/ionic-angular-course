@@ -70,7 +70,21 @@ export class PlacesService {
       take(1),
       delay(1000),
       tap(places => {
-          this._places.next(places.concat(newPlace));
+        this._places.next(places.concat(newPlace));
+      }));
+  }
+
+  updateOffer(placeId: string, title: string, description: string): Observable<Place[]> {
+    return this.places.pipe(
+      take(1),
+      delay(1000),
+      tap(places => {
+        const updatedPlaceIndex = places.findIndex(p => p.id === placeId);
+        const updatedPlaces = [...places];
+        const oldPlace = updatedPlaces[updatedPlaceIndex];
+        updatedPlaces[updatedPlaceIndex] = new Place(
+          placeId, title, description, oldPlace.imageUrl, oldPlace.price, oldPlace.availableFrom, oldPlace.availableTo, oldPlace.userId);
+        this._places.next(updatedPlaces);
       }));
   }
 }
