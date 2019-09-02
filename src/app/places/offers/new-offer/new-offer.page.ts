@@ -1,7 +1,9 @@
-import { PlacesService } from './../../places.service';
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { LoadingController } from '@ionic/angular';
+
+import { PlacesService } from './../../places.service';
 
 @Component({
   selector: 'app-new-offer',
@@ -12,7 +14,7 @@ export class NewOfferPage implements OnInit {
 
   form: FormGroup;
 
-  constructor(private placesService: PlacesService, private router: Router) { }
+  constructor(private placesService: PlacesService, private router: Router, private loadingCtrl: LoadingController) { }
 
   ngOnInit() {
     this.form = new FormGroup({
@@ -40,15 +42,26 @@ export class NewOfferPage implements OnInit {
   }
 
   onCreateOffer() {
-    console.log('Form', this.form);
-    this.placesService.addPlace(this.form.value.title,
-      this.form.value.description, 
-      'https://upload.wikimedia.org/wikipedia/commons/thumb/9/96/Wollcott-house-museum-maumee-oh.jpg/1200px-Wollcott-house-museum-maumee-oh.jpg', 
-      this.form.value.price,
-      this.form.value.dateFrom,
-      this.form.value.dateTo);
-    this.form.reset();
-    this.router.navigate(['/places/tabs/offers']);
+    if (this.form.invalid) {
+      return;
+    }
+
+    this.loadingCtrl.create({
+      message: 'Creating place...'
+    }).then(loadingEl => {
+      loadingEl.present();
+      this.placesService.addPlace(
+        this.form.value.title,
+        this.form.value.description,
+        'https://upload.wikimedia.org/wikipedia/commons/thumb/9/96/Wollcott-house-museum-maumee-oh.jpg/1200px-Wollcott-house-museum-maumee-oh.jpg',
+        this.form.value.price,
+        this.form.value.dateFrom,
+        this.form.value.dateTo).subscribe(() => {
+        loadingEl.dismiss();
+        this.form.reset();
+        this.router.navigate(['/places/tabs/offers']);
+      });
+    });
   }
 
 }

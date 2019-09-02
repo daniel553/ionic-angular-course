@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { take, map } from 'rxjs/operators';
+import { delay, map, take, tap } from 'rxjs/operators';
 
 import { AuthService } from './../auth/auth.service';
 import { Place } from './place.model';
+
 
 @Injectable({
   providedIn: 'root'
@@ -44,10 +45,16 @@ export class PlacesService {
   }
 
   getPlace(id: string): Observable<Place> {
-    return this.places.pipe(take(1), map(places => ({...places.find(p => p.id === id)})));
+    return this.places.pipe(take(1), map(places => ({ ...places.find(p => p.id === id) })));
   }
 
-  addPlace(title: string, description: string, imageUrl: string, price: number, availableFrom: Date, availableTo: Date) {
+  addPlace(
+    title: string,
+    description: string,
+    imageUrl: string,
+    price: number,
+    availableFrom: Date,
+    availableTo: Date): Observable<Place[]> {
     const newPlace = new Place(
       Math.random().toString(), title, description, imageUrl, price, availableFrom, availableTo, this.authService.userId);
 
@@ -55,8 +62,15 @@ export class PlacesService {
       subscribes to it but only take one object
       and then actomatically cancel the description.
     */
-    this.places.pipe(take(1)).subscribe(places => {
-      this._places.next(places.concat(newPlace));
-    });
+    /* Tap performs side effets for every value emitted by an observable
+        and returns an observable identical to the source observable, before known as do
+     */
+
+    return this.places.pipe(
+      take(1),
+      delay(1000),
+      tap(places => {
+          this._places.next(places.concat(newPlace));
+      }));
   }
 }
