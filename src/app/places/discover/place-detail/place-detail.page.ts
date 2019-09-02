@@ -1,10 +1,12 @@
-import { CreateBookingComponent } from './../../../bookings/create-booking/create-booking.component';
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
-import { NavController, ModalController, ActionSheetController } from '@ionic/angular';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ActionSheetController, LoadingController, ModalController, NavController } from '@ionic/angular';
+import { Subscription } from 'rxjs';
+import { BookingService } from 'src/app/bookings/booking.service';
+
 import { Place } from '../../place.model';
 import { PlacesService } from '../../places.service';
-import { Subscription } from 'rxjs';
+import { CreateBookingComponent } from './../../../bookings/create-booking/create-booking.component';
 
 @Component({
   selector: 'app-place-detail',
@@ -17,11 +19,13 @@ export class PlaceDetailPage implements OnInit, OnDestroy {
   placeSub: Subscription;
 
   constructor(private router: Router,
-              private navCtrl: NavController,
-              private route: ActivatedRoute,
-              private placesService: PlacesService,
-              private modalCtrl: ModalController,
-              private actionSheetCtrl: ActionSheetController) { }
+    private navCtrl: NavController,
+    private route: ActivatedRoute,
+    private placesService: PlacesService,
+    private modalCtrl: ModalController,
+    private actionSheetCtrl: ActionSheetController,
+    private bookingService: BookingService,
+    private loadingCtrl: LoadingController) { }
 
   ngOnInit() {
     this.route.paramMap.subscribe(paramMap => {
@@ -81,9 +85,23 @@ export class PlaceDetailPage implements OnInit, OnDestroy {
       modalEl.present();
       return modalEl.onDidDismiss();
     }).then(resultData => {
-      console.log(resultData);
+      const data = resultData.data.bookingData;
       if (resultData.role === 'confirm') {
-        // Do confirm
+        this.loadingCtrl.create({message: 'Booking place...'}).then(loadingEl => {
+          loadingEl.present();
+          this.bookingService.addBooking(
+            this.place.id,
+            this.place.title,
+            this.place.imageUrl,
+            data.firstName,
+            data.lastName,
+            data.guest,
+            data.fromDate,
+            data.endDate
+          ).subscribe(() => {
+            loadingEl.dismiss();
+          });
+        });
       }
     });
   }

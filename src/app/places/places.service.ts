@@ -30,7 +30,7 @@ export class PlacesService {
         100,
         new Date('2019-01-01'),
         new Date('2019-12-31'),
-        'ID');
+        i % 2 === 0 ? 'ID' : 'ID');
       places.push(p);
       i++;
     }
