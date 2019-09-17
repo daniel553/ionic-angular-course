@@ -43,4 +43,13 @@ export class BookingService {
                 this._bookings.next(bookings.concat(newBooking));
             }));
     }
+
+    cancelBooking(placeId: string) {
+        return this._bookings.pipe(
+            take(1),
+            delay(100),
+            tap(bookings => {
+                this._bookings.next(bookings.filter( b => b.id !== placeId));
+            }));
+    }
 }
